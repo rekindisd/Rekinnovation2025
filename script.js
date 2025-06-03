@@ -1,6 +1,14 @@
 // Ganti dengan URL dan API KEY dari Supabase Anda
 const SUPABASE_URL = 'https://mirzsfsctfylfmddwfgx.supabase.co';
-const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pcnpzZnNjdGZ5bGZtZGR3Zmd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NTM4NjAsImV4cCI6MjA2NDQyOTg2MH0.A8ssmtZ8eqFXdvcOs3wYxlZ0c-ZZdhYvo3noQnq1UzY';
+const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+
+// Fungsi untuk toggle show/hide password
+function togglePassword(inputId, toggleIcon) {
+  const passwordInput = document.getElementById(inputId);
+  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+  passwordInput.setAttribute('type', type);
+  toggleIcon.textContent = type === 'password' ? '👁️' : '🙈';
+}
 
 // Buka modal registrasi
 function openModal() {
@@ -20,13 +28,11 @@ async function handleRegister() {
   const password = document.getElementById("reg-password").value;
   const company = document.getElementById("reg-company").value;
 
-  // Validasi input sederhana
   if (!name || !no_hp || !email || !password || !company) {
     alert("Semua kolom wajib diisi!");
     return;
   }
 
-  // Kirim data ke Supabase
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
     method: 'POST',
     headers: {
@@ -56,7 +62,6 @@ async function handleLogin() {
     return;
   }
 
-  // Cek apakah identifier cocok dengan email atau no_hp + password
   const res = await fetch(`${SUPABASE_URL}/rest/v1/users?or=(email.eq.${identifier},no_hp.eq.${identifier})&password=eq.${password}`, {
     headers: {
       'apikey': SUPABASE_API_KEY,
@@ -68,8 +73,7 @@ async function handleLogin() {
 
   if (data.length > 0) {
     alert("Login berhasil!");
-    
-    // ✅ Redirect ke Google Site - dibuka di tab baru agar tidak diblokir oleh iframe Google Sites
+    // ✅ Redirect ke Google Sites → buka tab baru (aman untuk iframe embed)
     window.open("https://s.id/rekinnovation2025", "_blank");
   } else {
     alert("Login gagal. Cek email/nomor HP dan password.");
