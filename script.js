@@ -2,17 +2,17 @@
 const SUPABASE_URL = 'https://mirzsfsctfylfmddwfgx.supabase.co';
 const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pcnpzZnNjdGZ5bGZtZGR3Zmd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NTM4NjAsImV4cCI6MjA2NDQyOTg2MH0.A8ssmtZ8eqFXdvcOs3wYxlZ0c-ZZdhYvo3noQnq1UzY';
 
-// Fungsi untuk membuka modal pendaftaran
+// Buka modal registrasi
 function openModal() {
   document.getElementById("modal").style.display = "block";
 }
 
-// Fungsi untuk menutup modal pendaftaran
+// Tutup modal registrasi
 function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
-// Fungsi untuk proses registrasi
+// Fungsi untuk mendaftarkan user baru
 async function handleRegister() {
   const name = document.getElementById("reg-name").value;
   const no_hp = document.getElementById("reg-nohp").value;
@@ -20,6 +20,7 @@ async function handleRegister() {
   const password = document.getElementById("reg-password").value;
   const company = document.getElementById("reg-company").value;
 
+  // Validasi input sederhana
   if (!name || !no_hp || !email || !password || !company) {
     alert("Semua kolom wajib diisi!");
     return;
@@ -41,11 +42,11 @@ async function handleRegister() {
     alert("Registrasi berhasil!");
     closeModal();
   } else {
-    alert("Registrasi gagal. Email atau No HP mungkin sudah terdaftar.");
+    alert("Gagal mendaftar. Mungkin email atau no HP sudah terdaftar.");
   }
 }
 
-// Fungsi untuk proses login
+// Fungsi untuk login user
 async function handleLogin() {
   const identifier = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
@@ -55,11 +56,8 @@ async function handleLogin() {
     return;
   }
 
-  // Cari user berdasarkan email atau no_hp yang cocok, serta password
-  const query = encodeURIComponent(`or=(email.eq.${identifier},no_hp.eq.${identifier})&password=eq.${password}`);
-  const url = `${SUPABASE_URL}/rest/v1/users?${query}`;
-
-  const res = await fetch(url, {
+  // Cek apakah identifier cocok dengan email atau no_hp + password
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/users?or=(email.eq.${identifier},no_hp.eq.${identifier})&password=eq.${password}`, {
     headers: {
       'apikey': SUPABASE_API_KEY,
       'Authorization': `Bearer ${SUPABASE_API_KEY}`
@@ -69,11 +67,11 @@ async function handleLogin() {
   const data = await res.json();
 
   if (data.length > 0) {
-    alert("Login berhasil! Mengarahkan...");
-    // ✅ Redirect ke Google Site Anda
-    window.location.href = "https://s.id/rekinnovation2025";
+    alert("Login berhasil!");
+    
+    // ✅ Redirect ke Google Site - dibuka di tab baru agar tidak diblokir oleh iframe Google Sites
+    window.open("https://s.id/rekinnovation2025", "_blank");
   } else {
-    alert("Login gagal. Cek kembali email/nomor HP dan password.");
+    alert("Login gagal. Cek email/nomor HP dan password.");
   }
 }
-
