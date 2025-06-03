@@ -1,6 +1,6 @@
 // Ganti dengan URL dan API KEY dari Supabase Anda
 const SUPABASE_URL = 'https://mirzsfsctfylfmddwfgx.supabase.co';
-const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
+const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pcnpzZnNjdGZ5bGZtZGR3Zmd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg4NTM4NjAsImV4cCI6MjA2NDQyOTg2MH0.A8ssmtZ8eqFXdvcOs3wYxlZ0c-ZZdhYvo3noQnq1UzY';
 
 // Fungsi untuk toggle show/hide password
 function togglePassword(inputId, toggleIcon) {
@@ -73,7 +73,7 @@ async function handleLogin() {
 
   if (data.length > 0) {
     alert("Login berhasil!");
-    // ✅ Redirect ke Google Sites → buka tab baru (aman untuk iframe embed)
+    // ✅ Redirect ke Google Site: gunakan window.open agar bisa terbuka dari iframe Google Sites
     window.open("https://s.id/rekinnovation2025", "_blank");
   } else {
     alert("Login gagal. Cek email/nomor HP dan password.");
