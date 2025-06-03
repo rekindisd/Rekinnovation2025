@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login & Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Login Form -->
+  <div class="form-container">
+    <h2>Login</h2>
+    <input type="text" id="login-email" placeholder="Email atau Nomor HP" />
+    <div class="password-container">
+      <input type="password" id="login-password" placeholder="Password" />
+      <span class="toggle-password" onclick="togglePassword('login-password', this)">👁️</span>
+    </div>
+    <button onclick="handleLogin()">Login</button>
+    <p>Belum punya akun? <a href="#" onclick="openModal()">Daftar</a></p>
+  </div>
+
+  <!-- Register Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span onclick="closeModal()" class="close">&times;</span>
+      <h2>Register</h2>
+      <input type="text" id="reg-name" placeholder="Nama Lengkap" />
+      <input type="text" id="reg-nohp" placeholder="Nomor HP" />
+      <input type="email" id="reg-email" placeholder="Email" />
+      <div class="password-container">
+        <input type="password" id="reg-password" placeholder="Password" />
+        <span class="toggle-password" onclick="togglePassword('reg-password', this)">👁️</span>
+      </div>
+      <input type="text" id="reg-company" placeholder="Perusahaan" />
+      <button onclick="handleRegister()">Daftar</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
