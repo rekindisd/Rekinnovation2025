@@ -99,7 +99,8 @@ async function handleLogin() {
   if (data.length > 0) {
     showToast("Login berhasil!", true);
     setTimeout(() => {
-     window.location.href = "https://s.id/rekinnovation2025";
+     window.open("https://s.id/rekinnovation2025", "_blank");
+    window.close(); // hanya akan berhasil jika halaman ini dibuka via window.open
     }, 1000);
   } else {
     showToast("Login gagal. Cek email/nomor HP dan password.");
