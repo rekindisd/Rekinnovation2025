@@ -54,28 +54,45 @@ async function handleRegister() {
 
 // Fungsi untuk login user
 async function handleLogin() {
-  const identifier = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+  const identifier = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value.trim();
+  const errorDiv = document.getElementById("login-error");
+
+  if (errorDiv) {
+    errorDiv.style.display = "none";
+  }
 
   if (!identifier || !password) {
-    alert("Isi email/nomor HP dan password.");
+    if (errorDiv) {
+      errorDiv.textContent = "Isi email/nomor HP dan password.";
+      errorDiv.style.display = "block";
+    } else {
+      alert("Isi email/nomor HP dan password.");
+    }
     return;
   }
 
- const res = await fetch(`${SUPABASE_URL}/rest/v1/users?or=(email.eq.${encodeURIComponent(identifier)},no_hp.eq.${encodeURIComponent(identifier)})&password=eq.${encodeURIComponent(password)}`, {
-    headers: {
-      'apikey': SUPABASE_API_KEY,
-      'Authorization': `Bearer ${SUPABASE_API_KEY}`
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/users?or=(email.eq.${encodeURIComponent(identifier)},no_hp.eq.${encodeURIComponent(identifier)})&password=eq.${encodeURIComponent(password)}`,
+    {
+      headers: {
+        'apikey': SUPABASE_API_KEY,
+        'Authorization': `Bearer ${SUPABASE_API_KEY}`
+      }
     }
-  });
+  );
 
   const data = await res.json();
 
   if (data.length > 0) {
     alert("Login berhasil!");
-    // ✅ Redirect ke Google Site: gunakan window.open agar bisa terbuka dari iframe Google Sites
     window.open("https://s.id/rekinnovation2025", "_blank");
   } else {
-    alert("Login gagal. Cek email/nomor HP dan password.");
+    if (errorDiv) {
+      errorDiv.textContent = "Login gagal. Cek email/nomor HP dan password.";
+      errorDiv.style.display = "block";
+    } else {
+      alert("Login gagal. Cek email/nomor HP dan password.");
+    }
   }
 }
