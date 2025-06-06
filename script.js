@@ -20,6 +20,28 @@ function closeModal() {
   document.getElementById("modal").style.display = "none";
 }
 
+// Fungsi untuk menampilkan popup toast
+function showToast(message, isSuccess = false) {
+  const toast = document.createElement("div");
+  toast.textContent = message;
+  toast.style.position = "fixed";
+  toast.style.bottom = "20px";
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.background = isSuccess ? "#4CAF50" : "#f44336";
+  toast.style.color = "white";
+  toast.style.padding = "12px 24px";
+  toast.style.borderRadius = "8px";
+  toast.style.fontSize = "14px";
+  toast.style.zIndex = "9999";
+  toast.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3000);
+}
+
 // Fungsi untuk mendaftarkan user baru
 async function handleRegister() {
   const name = document.getElementById("reg-name").value;
@@ -29,7 +51,7 @@ async function handleRegister() {
   const company = document.getElementById("reg-company").value;
 
   if (!name || !no_hp || !email || !password || !company) {
-    alert("Semua kolom wajib diisi!");
+    showToast("Semua kolom wajib diisi!");
     return;
   }
 
@@ -45,10 +67,10 @@ async function handleRegister() {
   });
 
   if (res.ok) {
-    alert("Registrasi berhasil!");
+    showToast("Registrasi berhasil!", true);
     closeModal();
   } else {
-    alert("Gagal mendaftar. Mungkin email atau no HP sudah terdaftar.");
+    showToast("Gagal mendaftar. Mungkin email atau no HP sudah terdaftar.");
   }
 }
 
@@ -56,19 +78,9 @@ async function handleRegister() {
 async function handleLogin() {
   const identifier = document.getElementById("login-email").value.trim();
   const password = document.getElementById("login-password").value.trim();
-  const errorDiv = document.getElementById("login-error");
-
-  if (errorDiv) {
-    errorDiv.style.display = "none";
-  }
 
   if (!identifier || !password) {
-    if (errorDiv) {
-      errorDiv.textContent = "Isi email/nomor HP dan password.";
-      errorDiv.style.display = "block";
-    } else {
-      alert("Isi email/nomor HP dan password.");
-    }
+    showToast("Isi email/nomor HP dan password.");
     return;
   }
 
@@ -85,14 +97,11 @@ async function handleLogin() {
   const data = await res.json();
 
   if (data.length > 0) {
-    alert("Login berhasil!");
-    window.open("https://s.id/rekinnovation2025", "_blank");
+    showToast("Login berhasil!", true);
+    setTimeout(() => {
+      window.open("https://s.id/rekinnovation2025", "_blank");
+    }, 1000);
   } else {
-    if (errorDiv) {
-      errorDiv.textContent = "Login gagal. Cek email/nomor HP dan password.";
-      errorDiv.style.display = "block";
-    } else {
-      alert("Login gagal. Cek email/nomor HP dan password.");
-    }
+    showToast("Login gagal. Cek email/nomor HP dan password.");
   }
 }
