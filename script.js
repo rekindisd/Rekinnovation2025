@@ -62,7 +62,7 @@ async function handleLogin() {
     return;
   }
 
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/users?or=(email.eq.${identifier},no_hp.eq.${identifier})&password=eq.${password}`, {
+ const res = await fetch(`${SUPABASE_URL}/rest/v1/users?or=(email.eq.${encodeURIComponent(identifier)},no_hp.eq.${encodeURIComponent(identifier)})&password=eq.${encodeURIComponent(password)}`, {
     headers: {
       'apikey': SUPABASE_API_KEY,
       'Authorization': `Bearer ${SUPABASE_API_KEY}`
